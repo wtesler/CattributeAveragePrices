@@ -8,10 +8,12 @@ class KittyEvaluator:
     def __init__(self):
         self.cattributePriceAverageDict = cattribute_scraper.getCattributePriceAverages()
 
-    def evaluateKittyInAuction(self, auction):
+    def evaluateKitty(self, kittyId):
+        """
+            Returns a kitty with it's worth determined.
+        """
         url = 'https://api.cryptokitties.co/kitties/'
-        ID = auction['kitty']['id']
-        kitty = json.load(urllib2.urlopen(url + str(ID)))
+        kitty = json.load(urllib2.urlopen(url + str(kittyId)))
 
         count = 0
         accumulatedWorth = 0
@@ -24,5 +26,12 @@ class KittyEvaluator:
             worth = accumulatedWorth / count
             kitty['worth'] = worth
         except ZeroDivisionError as e:
-            print(str(e))
+            print(str(e) + " due to " + kitty)
+            kitty['worth'] = 0
         return kitty
+
+    def evaluateKittyWorth(self, kittyId):
+        """
+            Convenience method for when you just want the worth.
+        """
+        return self.evaluateKitty(kittyId)['worth']

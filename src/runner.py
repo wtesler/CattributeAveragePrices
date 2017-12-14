@@ -6,10 +6,10 @@ VERBOSE = True
 
 kittyEvaluator = KittyEvaluator()
 
-auctions = auction_client.getAuctions(limit=5)
+auctions = auction_client.getAuctions(limit=2)
 
 for auction in auctions:
-    kitty = kittyEvaluator.evaluateKittyInAuction(auction)
+    kitty = kittyEvaluator.evaluateKitty(auction['kitty']['id'])
     worth = kitty['worth']
     auctionPrice = auction_client.getCurrentAuctionPrice(auction)
     currentBalance = book_keeper.getCurrentBalance()
